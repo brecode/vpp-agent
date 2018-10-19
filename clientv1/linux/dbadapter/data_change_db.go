@@ -190,7 +190,7 @@ func (dsl *PutDSL) StnRule(stn *stn.STN_Rule) linuxclient.PutDSL {
 	return dsl
 }
 
-// TmcConfig adds a request to create or update VPP Stn rule.
+// TmcConfig adds a request to create or update VPP tmc config.
 func (dsl *PutDSL) TmcConfig(config *tmc.TmcConfig) linuxclient.PutDSL {
 	dsl.vppPut.TmcConfig(config)
 	return dsl
@@ -343,7 +343,7 @@ func (dsl *DeleteDSL) NAT44DNat(label string) linuxclient.DeleteDSL {
 	return dsl
 }
 
-// TmcConfig adds a request to create or update VPP Stn rule.
+// TmcConfig adds a request to create or update VPP tmc config.
 func (dsl *DeleteDSL) TmcConfig(configName string) linuxclient.DeleteDSL {
 	dsl.vppDelete.TmcConfig(configName)
 	return dsl
