@@ -24,6 +24,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/l4"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 )
 
 // DataChangeDSL defines Domain Specific Language (DSL) for data change.
@@ -94,6 +95,8 @@ type PutDSL interface {
 	IPSecSA(sa *ipsec.SecurityAssociations_SA) PutDSL
 	// IPSecSPD adds request to create a new Security Policy Database
 	IPSecSPD(spd *ipsec.SecurityPolicyDatabases_SPD) PutDSL
+	// TmcConfig adds a request to create or update Tmc config.
+	TmcConfig(tmc *tmc.TmcConfig) PutDSL
 
 	// Delete changes the DSL mode to allow removal of an existing configuration.
 	// See documentation for DataChangeDSL.Delete().
@@ -149,6 +152,8 @@ type DeleteDSL interface {
 	IPSecSA(saName string) DeleteDSL
 	// IPSecSPD adds request to delete a Security Policy Database
 	IPSecSPD(spdName string) DeleteDSL
+	// TmcConfig adds a request to delete a Tmc config.
+	TmcConfig(configName string) PutDSL
 
 	// Put changes the DSL mode to allow configuration editing.
 	// See documentation for DataChangeDSL.Put().
