@@ -19,7 +19,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/binapi/tmc"
 )
 
-// StnRule represents stn rule entry
+// TmcConfig represents TMC config entry
 type TmcConfig struct {
 	MssValue  uint16
 	IfaceIdx  uint32
