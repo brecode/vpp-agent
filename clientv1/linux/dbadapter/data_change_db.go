@@ -18,6 +18,7 @@ import (
 	"github.com/ligato/cn-infra/db/keyval"
 	"github.com/ligato/vpp-agent/clientv1/linux"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 
 	"github.com/ligato/vpp-agent/clientv1/vpp/dbadapter"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/acl"
@@ -186,6 +187,12 @@ func (dsl *PutDSL) AppNamespace(appNs *l4.AppNamespaces_AppNamespace) linuxclien
 // StnRule adds a request to create or update VPP Stn rule.
 func (dsl *PutDSL) StnRule(stn *stn.STN_Rule) linuxclient.PutDSL {
 	dsl.vppPut.StnRule(stn)
+	return dsl
+}
+
+// StnRule adds a request to create or update VPP Stn rule.
+func (dsl *PutDSL) TmcConfig(config *tmc.TmcConfig) linuxclient.PutDSL {
+	dsl.vppPut.TmcConfig(config)
 	return dsl
 }
 
