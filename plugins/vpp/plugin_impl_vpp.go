@@ -96,6 +96,7 @@ type Plugin struct {
 	ipNeighConfigurator  *l3plugin.IPNeighConfigurator
 	appNsConfigurator    *l4plugin.AppNsConfigurator
 	srv6Configurator     *srplugin.SRv6Configurator
+	tmcConfigurator      *ifplugin.TmcConfigurator
 
 	// State updaters
 	ifStateUpdater *ifplugin.InterfaceStateUpdater

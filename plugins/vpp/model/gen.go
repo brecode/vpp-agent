@@ -23,5 +23,6 @@
 //go:generate protoc --proto_path=rpc --proto_path=$GOPATH/src --gogo_out=plugins=grpc:rpc rpc/rpc.proto
 //go:generate protoc --proto_path=srv6 --gogo_out=srv6 srv6/srv6.proto
 //go:generate protoc --proto_path=stn --gogo_out=stn stn/stn.proto
+//go:generate protoc --proto_path=tmc --gogo_out=tmc tmc/tmc.proto
 
 package model

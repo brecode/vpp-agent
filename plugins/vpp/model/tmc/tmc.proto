@@ -1,0 +1,13 @@
+syntax = "proto3";
+package tmc;
+
+/* TmcConfig */
+message TmcConfig {
+	string config_name = 1;
+
+	uint32 tcp_mss_clamping = 2; /* Enable/disable tcp mss clamping. */
+
+	string interface_name = 3; /* Interface Name */
+
+	uint32 mss_value = 4;
+}

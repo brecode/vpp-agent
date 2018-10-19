@@ -27,6 +27,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/rpc"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 	"golang.org/x/net/context"
 )
 
@@ -128,6 +129,12 @@ func (dsl *DataResyncDSL) ProxyArpRanges(val *l3.ProxyArpRanges_RangeList) vppcl
 
 // StnRule adds Stn rule to the RESYNC request.
 func (dsl *DataResyncDSL) StnRule(val *stn.STN_Rule) vppclient.DataResyncDSL {
+	dsl.put = append(dsl.put, val)
+	return dsl
+}
+
+// TmcConfig adds Tmc config to the RESYNC request.
+func (dsl *DataResyncDSL) TmcConfig(val *tmc.TmcConfig) vppclient.DataResyncDSL {
 	dsl.put = append(dsl.put, val)
 	return dsl
 }

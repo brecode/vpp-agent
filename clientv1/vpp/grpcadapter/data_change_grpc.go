@@ -30,6 +30,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/rpc"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 	"golang.org/x/net/context"
 )
 
@@ -142,6 +143,12 @@ func (dsl *PutDSL) ProxyArpRanges(val *l3.ProxyArpRanges_RangeList) vppclient.Pu
 
 // StnRule adds a request to create or update STN rule.
 func (dsl *PutDSL) StnRule(val *stn.STN_Rule) vppclient.PutDSL {
+	dsl.parent.put = append(dsl.parent.put, val)
+	return dsl
+}
+
+// TmcConfig adds a request to create or update tmc config.
+func (dsl *PutDSL) TmcConfig(val *tmc.TmcConfig) vppclient.PutDSL {
 	dsl.parent.put = append(dsl.parent.put, val)
 	return dsl
 }
@@ -315,6 +322,14 @@ func (dsl *DeleteDSL) StnRule(name string) vppclient.DeleteDSL {
 	return dsl
 }
 
+// TmcConfig adds request to delete tmc config.
+func (dsl *DeleteDSL) TmcConfig(name string) vppclient.DeleteDSL {
+	dsl.parent.del = append(dsl.parent.del, &tmc.TmcConfig{
+		ConfigName: name,
+	})
+	return dsl
+}
+
 // NAT44Global adds a request to remove global configuration for NAT44
 func (dsl *DeleteDSL) NAT44Global() vppclient.DeleteDSL {
 	dsl.parent.del = append(dsl.parent.del, &nat.Nat44Global{})
@@ -409,6 +424,8 @@ func getRequestFromData(data []proto.Message) *rpc.DataRequest {
 			request.ApplicationNamespaces = append(request.ApplicationNamespaces, typedItem)
 		case *stn.STN_Rule:
 			request.StnRules = append(request.StnRules, typedItem)
+		case *tmc.TmcConfig:
+			request.TmcConf = typedItem
 		case *nat.Nat44Global:
 			request.NatGlobal = typedItem
 		case *nat.Nat44DNat_DNatConfig:
