@@ -27,6 +27,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/l4"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 )
 
 // NewDataChangeDSL returns a new instance of DataChangeDSL which implements
@@ -165,6 +166,12 @@ func (dsl *PutDSL) StnRule(val *stn.STN_Rule) vppclient.PutDSL {
 	return dsl
 }
 
+// TmcConfig adds a request to create or update Tmc config.
+func (dsl *PutDSL) TmcConfig(val *tmc.TmcConfig) vppclient.PutDSL {
+	dsl.parent.txn.Put(stn.Key(val.ConfigName), val)
+	return dsl
+}
+
 // NAT44Global adds a request to set global configuration for NAT44
 func (dsl *PutDSL) NAT44Global(nat44 *nat.Nat44Global) vppclient.PutDSL {
 	dsl.parent.txn.Put(nat.GlobalPrefix, nat44)
@@ -290,6 +297,12 @@ func (dsl *DeleteDSL) AppNamespace(id string) vppclient.DeleteDSL {
 // StnRule adds request to delete Stn rule.
 func (dsl *DeleteDSL) StnRule(ruleName string) vppclient.DeleteDSL {
 	dsl.parent.txn.Delete(stn.Key(ruleName))
+	return dsl
+}
+
+// TmcConfig adds request to delete Tmc config.
+func (dsl *DeleteDSL) TmcConfig(configName string) vppclient.DeleteDSL {
+	dsl.parent.txn.Delete(stn.Key(configName))
 	return dsl
 }
 
