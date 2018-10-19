@@ -225,6 +225,6 @@ func tmcConfig() *modelTmc.TmcConfig {
 		ConfigName:     "config1",
 		TcpMssClamping: 1,
 		InterfaceName:  "memif1",
-		MssValue:       1450,
+		MssValue:       1400,
 	}
 }

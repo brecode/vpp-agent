@@ -311,7 +311,7 @@ func NewStnVppHandler(callsChan api.Channel, ifIndexes ifaceidx.SwIfIndex, log l
 	}
 }
 
-// NewTmcVppHandler creates new instance of STN vppcalls handler
+// NewTmcVppHandler creates new instance of TMC vppcalls handler
 func NewTmcVppHandler(callsChan api.Channel, ifIndexes ifaceidx.SwIfIndex, log logging.Logger) *TmcVppHandler {
 	return &TmcVppHandler{
 		callsChannel: callsChan,
@@ -319,4 +319,3 @@ func NewTmcVppHandler(callsChan api.Channel, ifIndexes ifaceidx.SwIfIndex, log l
 		log:          log,
 	}
 }
-
