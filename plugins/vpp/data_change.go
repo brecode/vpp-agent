@@ -15,6 +15,7 @@
 package vpp
 
 import (
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 	"strings"
 
 	"github.com/gogo/protobuf/proto"
@@ -361,6 +362,18 @@ func (plugin *Plugin) changePropagateRequest(dataChng datasync.ChangeEvent, call
 		var value, prevValue srv6.Steering
 		if diff, err := plugin.extractFrom(dataChng, &value, &prevValue); err == nil {
 			if err := plugin.dataChangeSteering(strings.TrimPrefix(key, srv6.SteeringPrefix()), diff, &value, &prevValue, dataChng.GetChangeType()); err != nil {
+				return false, err
+			}
+		} else {
+			return false, err
+		}
+	} else if strings.HasPrefix(key, tmc.Prefix) {
+		var value, prevValue tmc.TmcConfig
+		if err := dataChng.GetValue(&value); err != nil {
+			return false, err
+		}
+		if diff, err := dataChng.GetPrevValue(&prevValue); err == nil {
+			if err := plugin.dataChangeTmcConfig(diff, &value, &prevValue, dataChng.GetChangeType()); err != nil {
 				return false, err
 			}
 		} else {
@@ -770,4 +783,19 @@ func (plugin *Plugin) dataChangeSteering(steeringName string, diff bool, value *
 		err = plugin.srv6Configurator.AddSteering(steeringName, value)
 	}
 	return plugin.srv6Configurator.LogError(err)
+}
+
+// DataChangeTmcConfig propagates data change to the tmc configurator
+func (plugin *Plugin) dataChangeTmcConfig(diff bool, value *tmc.TmcConfig, prevValue *tmc.TmcConfig, changeType datasync.Op) error {
+	plugin.Log.Debug("tmcConfigChange diff->", diff, " changeType->", changeType, " value->", value, " prevValue->", prevValue)
+
+	var err error
+	if datasync.Delete == changeType {
+		err = plugin.tmcConfigurator.Delete(prevValue)
+	} else if diff {
+		err = plugin.tmcConfigurator.Modify(prevValue, value)
+	} else {
+		err = plugin.tmcConfigurator.Add(value)
+	}
+	return plugin.tmcConfigurator.LogError(err)
 }

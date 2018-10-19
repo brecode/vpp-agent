@@ -229,6 +229,17 @@ type StnVppRead interface {
 	DumpStnRules() (rules *StnDetails, err error)
 }
 
+// TmcVppAPI provides methods for managing TMC
+type TmcVppAPI interface {
+	TmcVppWrite
+}
+
+// TmcVppWrite provides write methods for TMC
+type TmcVppWrite interface {
+	// ModifyTmcConfig calls StnAddDelConfig bin API with IsAdd=1
+	ModifyTmcConfig(ifIdx uint32, mssValue uint16, isEnabled uint8) error
+}
+
 // IfVppHandler is accessor for interface-related vppcalls methods
 type IfVppHandler struct {
 	callsChannel api.Channel
@@ -252,6 +263,13 @@ type NatVppHandler struct {
 
 // StnVppHandler is accessor for STN-related vppcalls methods
 type StnVppHandler struct {
+	ifIndexes    ifaceidx.SwIfIndex
+	callsChannel api.Channel
+	log          logging.Logger
+}
+
+// TmcVppHandler is accessor for TMC-related vppcalls methods
+type TmcVppHandler struct {
 	ifIndexes    ifaceidx.SwIfIndex
 	callsChannel api.Channel
 	log          logging.Logger
@@ -292,3 +310,13 @@ func NewStnVppHandler(callsChan api.Channel, ifIndexes ifaceidx.SwIfIndex, log l
 		log:          log,
 	}
 }
+
+// NewTmcVppHandler creates new instance of STN vppcalls handler
+func NewTmcVppHandler(callsChan api.Channel, ifIndexes ifaceidx.SwIfIndex, log logging.Logger) *TmcVppHandler {
+	return &TmcVppHandler{
+		callsChannel: callsChan,
+		ifIndexes:    ifIndexes,
+		log:          log,
+	}
+}
+
