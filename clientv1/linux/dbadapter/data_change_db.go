@@ -190,7 +190,7 @@ func (dsl *PutDSL) StnRule(stn *stn.STN_Rule) linuxclient.PutDSL {
 	return dsl
 }
 
-// StnRule adds a request to create or update VPP Stn rule.
+// TmcConfig adds a request to create or update VPP Stn rule.
 func (dsl *PutDSL) TmcConfig(config *tmc.TmcConfig) linuxclient.PutDSL {
 	dsl.vppPut.TmcConfig(config)
 	return dsl
@@ -340,6 +340,12 @@ func (dsl *DeleteDSL) NAT44Global() linuxclient.DeleteDSL {
 // NAT44DNat adds a request to delete a new DNAT configuration
 func (dsl *DeleteDSL) NAT44DNat(label string) linuxclient.DeleteDSL {
 	dsl.vppDelete.NAT44DNat(label)
+	return dsl
+}
+
+// TmcConfig adds a request to create or update VPP Stn rule.
+func (dsl *DeleteDSL) TmcConfig(configName string) linuxclient.DeleteDSL {
+	dsl.vppDelete.TmcConfig(configName)
 	return dsl
 }
 

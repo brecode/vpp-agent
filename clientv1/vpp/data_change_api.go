@@ -153,7 +153,7 @@ type DeleteDSL interface {
 	// IPSecSPD adds request to delete a Security Policy Database
 	IPSecSPD(spdName string) DeleteDSL
 	// TmcConfig adds a request to delete a Tmc config.
-	TmcConfig(configName string) PutDSL
+	TmcConfig(configName string) DeleteDSL
 
 	// Put changes the DSL mode to allow configuration editing.
 	// See documentation for DataChangeDSL.Put().
