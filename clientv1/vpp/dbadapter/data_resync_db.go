@@ -27,6 +27,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/l4"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 )
 
 // NewDataResyncDSL returns a new instance of DataResyncDSL which implements
@@ -177,6 +178,15 @@ func (dsl *DataResyncDSL) Arp(val *l3.ArpTable_ArpEntry) vppclient.DataResyncDSL
 // StnRule adds Stn rule to the RESYNC request.
 func (dsl *DataResyncDSL) StnRule(val *stn.STN_Rule) vppclient.DataResyncDSL {
 	key := stn.Key(val.RuleName)
+	dsl.txn.Put(key, val)
+	dsl.txnKeys = append(dsl.txnKeys, key)
+
+	return dsl
+}
+
+// TmcConfig adds tmc config to the RESYNC request.
+func (dsl *DataResyncDSL) TmcConfig(val *tmc.TmcConfig) vppclient.DataResyncDSL {
+	key := tmc.Key(val.ConfigName)
 	dsl.txn.Put(key, val)
 	dsl.txnKeys = append(dsl.txnKeys, key)
 

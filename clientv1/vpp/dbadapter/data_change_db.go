@@ -168,7 +168,7 @@ func (dsl *PutDSL) StnRule(val *stn.STN_Rule) vppclient.PutDSL {
 
 // TmcConfig adds a request to create or update Tmc config.
 func (dsl *PutDSL) TmcConfig(val *tmc.TmcConfig) vppclient.PutDSL {
-	dsl.parent.txn.Put(stn.Key(val.ConfigName), val)
+	dsl.parent.txn.Put(tmc.Key(val.ConfigName), val)
 	return dsl
 }
 
@@ -302,7 +302,7 @@ func (dsl *DeleteDSL) StnRule(ruleName string) vppclient.DeleteDSL {
 
 // TmcConfig adds request to delete Tmc config.
 func (dsl *DeleteDSL) TmcConfig(configName string) vppclient.DeleteDSL {
-	dsl.parent.txn.Delete(stn.Key(configName))
+	dsl.parent.txn.Delete(tmc.Key(configName))
 	return dsl
 }
 
