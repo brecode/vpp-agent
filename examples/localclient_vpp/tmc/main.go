@@ -33,7 +33,7 @@ import (
 )
 
 var (
-	timeout = flag.Int("timeout", 20, "Timeout between applying of global and DNAT configuration in seconds")
+	timeout = flag.Int("timeout", 20, "Timeout between applying of global and TMC configuration in seconds")
 )
 
 /* Vpp-agent Init and Close*/
@@ -74,8 +74,7 @@ func closeExample(message string, exampleFinished chan struct{}) {
 	close(exampleFinished)
 }
 
-// TmcExamplePlugin uses localclient to transport example global NAT and DNAT and af-packet
-// configuration to NAT VPP plugin
+// TmcExamplePlugin uses localclient to transport example global TMC configuration to TMC VPP plugin
 type TmcExamplePlugin struct {
 	Deps
 
@@ -97,11 +96,11 @@ func (plugin *TmcExamplePlugin) Init() error {
 	// Logger
 	plugin.Log = logrus.DefaultLogger()
 	plugin.Log.SetLevel(logging.DebugLevel)
-	plugin.Log.Info("Initializing NAT44 example")
+	plugin.Log.Info("Initializing TMC example")
 
 	// Flags
 	flag.Parse()
-	plugin.Log.Infof("Timeout between configuring NAT global and DNAT set to %d", *timeout)
+	plugin.Log.Infof("Timeout between configuring TMC set to %d", *timeout)
 
 	// Apply initial VPP configuration.
 	plugin.putGlobalConfig()
@@ -112,7 +111,7 @@ func (plugin *TmcExamplePlugin) Init() error {
 	plugin.wg.Add(1)
 	go plugin.applyTmcConfig(ctx, *timeout)
 
-	plugin.Log.Info("NAT example initialization done")
+	plugin.Log.Info("TMC example initialization done")
 	return nil
 }
 
@@ -121,7 +120,7 @@ func (plugin *TmcExamplePlugin) Close() error {
 	plugin.cancel()
 	plugin.wg.Wait()
 
-	logrus.DefaultLogger().Info("Closed NAT example plugin")
+	logrus.DefaultLogger().Info("Closed TMC example plugin")
 	return nil
 }
 
@@ -145,7 +144,7 @@ func (plugin *TmcExamplePlugin) putGlobalConfig() {
 	}
 }
 
-// Configure DNAT
+// Configure TMC
 func (plugin *TmcExamplePlugin) applyTmcConfig(ctx context.Context, timeout int) {
 	select {
 	case <-time.After(time.Duration(timeout) * time.Second):
@@ -159,7 +158,7 @@ func (plugin *TmcExamplePlugin) applyTmcConfig(ctx context.Context, timeout int)
 			plugin.Log.Info("TMC configuration successful")
 		}
 	case <-ctx.Done():
-		// Cancel the scheduled DNAT configuration.
+		// Cancel the scheduled TMC configuration.
 		plugin.Log.Info("TMC configuration canceled")
 	}
 	plugin.wg.Done()
