@@ -30,6 +30,7 @@ import (
 	"github.com/ligato/vpp-agent/plugins/vpp/model/nat"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/rpc"
 	"github.com/ligato/vpp-agent/plugins/vpp/model/stn"
+	"github.com/ligato/vpp-agent/plugins/vpp/model/tmc"
 	"golang.org/x/net/context"
 )
 
@@ -142,6 +143,12 @@ func (dsl *PutDSL) ProxyArpRanges(val *l3.ProxyArpRanges_RangeList) vppclient.Pu
 
 // StnRule adds a request to create or update STN rule.
 func (dsl *PutDSL) StnRule(val *stn.STN_Rule) vppclient.PutDSL {
+	dsl.parent.put = append(dsl.parent.put, val)
+	return dsl
+}
+
+// TmcConfig adds a request to create or update tmc config.
+func (dsl *PutDSL) TmcConfig(val *tmc.TmcConfig) vppclient.PutDSL {
 	dsl.parent.put = append(dsl.parent.put, val)
 	return dsl
 }
@@ -311,6 +318,14 @@ func (dsl *DeleteDSL) ProxyArpRanges(label string) vppclient.DeleteDSL {
 func (dsl *DeleteDSL) StnRule(name string) vppclient.DeleteDSL {
 	dsl.parent.del = append(dsl.parent.del, &stn.STN_Rule{
 		RuleName: name,
+	})
+	return dsl
+}
+
+// TmcConfig adds request to delete tmc config.
+func (dsl *DeleteDSL) TmcConfig(name string) vppclient.DeleteDSL {
+	dsl.parent.del = append(dsl.parent.del, &tmc.TmcConfig{
+		ConfigName: name,
 	})
 	return dsl
 }
