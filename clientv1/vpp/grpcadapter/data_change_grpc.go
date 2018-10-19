@@ -424,6 +424,8 @@ func getRequestFromData(data []proto.Message) *rpc.DataRequest {
 			request.ApplicationNamespaces = append(request.ApplicationNamespaces, typedItem)
 		case *stn.STN_Rule:
 			request.StnRules = append(request.StnRules, typedItem)
+		case *tmc.TmcConfig:
+			request.TmcConf = typedItem
 		case *nat.Nat44Global:
 			request.NatGlobal = typedItem
 		case *nat.Nat44DNat_DNatConfig:

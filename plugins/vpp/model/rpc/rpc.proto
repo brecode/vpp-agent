@@ -10,6 +10,7 @@ import "github.com/ligato/vpp-agent/plugins/vpp/model/l3/l3.proto";
 import "github.com/ligato/vpp-agent/plugins/vpp/model/l4/l4.proto";
 import "github.com/ligato/vpp-agent/plugins/vpp/model/nat/nat.proto";
 import "github.com/ligato/vpp-agent/plugins/vpp/model/stn/stn.proto";
+import "github.com/ligato/vpp-agent/plugins/vpp/model/tmc/tmc.proto";
 import "github.com/ligato/vpp-agent/plugins/linux/model/interfaces/interfaces.proto";
 import "github.com/ligato/vpp-agent/plugins/linux/model/l3/l3.proto";
 
@@ -55,7 +56,8 @@ message DataRequest {
     repeated l4.AppNamespaces.AppNamespace ApplicationNamespaces = 61;
     repeated stn.STN.Rule StnRules = 70;
     nat.Nat44Global NatGlobal = 71;
-    repeated nat.Nat44DNat.DNatConfig DNATs= 72;
+    repeated nat.Nat44DNat.DNatConfig DNATs = 72;
+    tmc.TmcConfig TmcConf = 73;
     // Linuxplugin
     repeated interfaces.LinuxInterfaces.Interface LinuxInterfaces = 80;
     repeated l3.LinuxStaticArpEntries.ArpEntry LinuxArpEntries = 90;
