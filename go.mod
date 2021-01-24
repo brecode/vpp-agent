@@ -19,7 +19,7 @@ require (
 	github.com/go-errors/errors v1.0.1
 	github.com/goccy/go-graphviz v0.0.6
 	github.com/goccy/go-yaml v1.8.0
-	github.com/golang/protobuf v1.4.2
+	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.2
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.1 // indirect
